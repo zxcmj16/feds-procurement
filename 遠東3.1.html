@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>遠東百貨｜採購智能化 AI 平台</title>
+<style>
+:root{
+  --navy:#172033; --blue:#2563eb; --cyan:#0ea5e9; --bg:#f5f7fb; --card:#fff;
+  --text:#172033; --muted:#6b7280; --line:#e5e7eb; --green:#16a34a; --orange:#f59e0b;
+  --red:#dc2626; --purple:#7c3aed;
+}
+*{box-sizing:border-box} body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select,textarea{font:inherit} button{cursor:pointer}
+.app{display:flex;min-height:100vh}.sidebar{width:245px;background:var(--navy);color:#fff;position:fixed;inset:0 auto 0 0;padding:22px 14px;z-index:5}
+.brand{display:flex;align-items:center;gap:12px;padding:5px 10px 24px}.logo{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#60a5fa,#2563eb);display:grid;place-items:center;font-weight:800}
+.brand b{font-size:16px}.brand small{display:block;color:#aeb7c8;margin-top:3px}
+.nav-title{font-size:11px;color:#8f9ab0;padding:12px 11px 6px}.nav button{width:100%;background:none;border:0;color:#dce3ef;text-align:left;padding:11px 12px;border-radius:9px;margin:2px 0}.nav button:hover,.nav button.active{background:#26334c;color:#fff}.nav .icon{display:inline-block;width:24px}
+.main{margin-left:245px;width:calc(100% - 245px)}.topbar{height:68px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;position:sticky;top:0;z-index:4}
+.crumb{color:var(--muted);font-size:14px}.user{display:flex;align-items:center;gap:12px}.avatar{width:34px;height:34px;border-radius:50%;background:#dbeafe;color:#1d4ed8;display:grid;place-items:center;font-weight:700}
+.content{padding:28px 30px 50px;max-width:1500px;margin:auto}.page-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}.page-title h1{font-size:25px;margin:0}.page-title p{margin:7px 0 0;color:var(--muted);font-size:13px}
+.btn{border:1px solid var(--line);background:#fff;padding:9px 15px;border-radius:8px;color:var(--text)}.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}.btn.success{background:var(--green);border-color:var(--green);color:#fff}.btn.warning{background:var(--orange);border-color:var(--orange);color:#fff}.btn.danger{color:var(--red)}.btn + .btn{margin-left:7px}
+.grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(4,1fr)}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}.stat .label{font-size:13px;color:var(--muted)}.stat .num{font-size:30px;font-weight:800;margin:8px 0}.stat .hint{font-size:12px;color:var(--muted)}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px}.card h3{margin:0 0 15px;font-size:17px}.two{grid-template-columns:1.3fr .7fr}.three{grid-template-columns:repeat(3,1fr)}
+.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;font-size:13px}.table th{background:#f8fafc;color:#64748b;text-align:left;font-weight:600}.table th,.table td{padding:12px;border-bottom:1px solid var(--line);white-space:nowrap}.table tr:hover td{background:#fafcff}
+.badge{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:600;background:#eef2ff;color:#4338ca}.badge.green{background:#ecfdf3;color:#15803d}.badge.orange{background:#fff7ed;color:#c2410c}.badge.gray{background:#f1f5f9;color:#64748b}.badge.red{background:#fef2f2;color:#b91c1c}.badge.blue{background:#eff6ff;color:#1d4ed8}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:15px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:12px;color:#64748b}.field input,.field select,.field textarea{border:1px solid #dbe0e8;border-radius:7px;padding:9px 10px;background:#fff;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3px #dbeafe}.filters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{font-size:12px;color:var(--muted)}.progress{height:7px;background:#e5e7eb;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;background:var(--blue)}
+.notice{padding:13px 15px;border-radius:8px;background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;font-size:13px;margin-bottom:14px}
+.ai-box{border:1px solid #c4b5fd;background:#faf5ff;border-radius:10px;padding:16px}.ai-title{color:#6d28d9;font-weight:700;margin-bottom:8px}.ai-box li{margin:7px 0;font-size:13px}
+.tabs{display:flex;border-bottom:1px solid var(--line);margin:-5px -20px 20px;padding:0 20px}.tabs button{background:none;border:0;padding:13px 15px;color:#64748b;border-bottom:2px solid transparent}.tabs button.active{color:var(--blue);border-color:var(--blue);font-weight:700}
+.stepper{display:flex;gap:0;margin:20px 0 25px}.step{flex:1;text-align:center;position:relative}.step:after{content:"";position:absolute;top:15px;left:50%;width:100%;height:2px;background:#e5e7eb;z-index:0}.step:last-child:after{display:none}.dot{width:30px;height:30px;border-radius:50%;display:inline-grid;place-items:center;background:#e5e7eb;color:#64748b;position:relative;z-index:1}.step.done .dot,.step.current .dot{background:var(--blue);color:#fff}.step.current .dot{box-shadow:0 0 0 5px #dbeafe}.step span{display:block;font-size:12px;margin-top:7px;color:#64748b}.step.current span{color:var(--blue);font-weight:700}
+.upload{border:2px dashed #cbd5e1;border-radius:10px;padding:28px;text-align:center;color:#64748b;background:#f8fafc}.upload b{color:#334155}.modal-bg{position:fixed;inset:0;background:rgba(15,23,42,.48);display:none;align-items:center;justify-content:center;z-index:20}.modal{background:#fff;border-radius:13px;width:min(720px,92vw);max-height:90vh;overflow:auto;padding:22px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.modal-head h2{margin:0;font-size:19px}.x{border:0;background:#f1f5f9;border-radius:50%;width:32px;height:32px}
+.empty{padding:40px;text-align:center;color:#94a3b8}.hidden{display:none!important}
+.toast{position:fixed;right:25px;bottom:25px;background:#172033;color:#fff;padding:12px 18px;border-radius:8px;display:none;z-index:30;box-shadow:0 10px 30px #0002}
+@media(max-width:900px){.sidebar{width:75px}.brand div:not(.logo),.brand small,.nav-title,.nav button span:not(.icon){display:none}.nav button{text-align:center}.main{margin-left:75px;width:calc(100% - 75px)}.stats,.two,.three{grid-template-columns:1fr 1fr}.filters{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.stats,.two,.three,.filters{grid-template-columns:1fr}.content{padding:18px}.topbar{padding:0 18px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="logo">AI</div><div><b>遠東百貨</b><small>採購智能化平台</small></div></div>
+  <div class="nav">
+    <div class="nav-title">採購管理平台</div>
+    <button class="active" onclick="showPage('dashboard',this)"><span class="icon">⌂</span><span>儀表板</span></button>
+    <button onclick="showPage('reason',this)"><span class="icon">✓</span><span>請購合理性判斷</span></button>
+    <button onclick="showPage('cases',this)"><span class="icon">▣</span><span>採購案件</span></button>
+    <button onclick="showPage('suppliers',this)"><span class="icon">♙</span><span>供應商管理</span></button>
+    <button onclick="showPage('esg',this)"><span class="icon">◎</span><span>ESG 問券</span></button>
+    <button onclick="showPage('transfer',this)"><span class="icon">⇄</span><span>案件移轉</span></button>
+    <div class="nav-title">系統管理</div>
+    <button onclick="showPage('params',this)"><span class="icon">⚙</span><span>參數管理</span></button>
+    <button onclick="showPage('notice',this)"><span class="icon">◉</span><span>公告管理</span></button>
+    <div class="nav-title">供應商平台</div>
+    <button onclick="showPage('vendor',this)"><span class="icon">◫</span><span>供應商入口</span></button>
+  </div>
+</aside>
+<main class="main">
+<header class="topbar"><div class="crumb" id="crumb">採購管理平台　/　儀表板</div><div class="user"><span>採購經辦｜王小明</span><div class="avatar">王</div></div></header>
+<section class="content" id="content"></section>
+</main>
+</div>
+<div class="modal-bg" id="modal"><div class="modal" id="modalBody"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const cases=[
+ {no:'PO-202609-0012',unit:'資訊處',name:'防火牆設備汰換專案',date:'2026/09/15',status:'詢價中',owner:'王小明'},
+ {no:'PO-202609-0011',unit:'工程部',name:'門市空調維護工程',date:'2026/09/12',status:'詢價單已收回完畢',owner:'陳怡君'},
+ {no:'PO-202609-0008',unit:'行銷部',name:'年度活動視覺設計',date:'2026/09/08',status:'比價與議價階段',owner:'王小明'},
+ {no:'PO-202608-0021',unit:'總務部',name:'辦公家具採購',date:'2026/08/29',status:'已結案',owner:'林志豪'}
+];
+const suppliers=[
+ {id:'S001',name:'台灣資訊科技股份有限公司',cat:'資訊服務',capital:'5億',rating:'A',esg:'92'},
+ {id:'S002',name:'華信工程有限公司',cat:'工程服務',capital:'8,000萬',rating:'A',esg:'88'},
+ {id:'S003',name:'新世代系統整合有限公司',cat:'資訊服務',capital:'2億',rating:'B',esg:'84'},
+ {id:'S004',name:'遠景設備股份有限公司',cat:'設備工程',capital:'1.5億',rating:'A',esg:'90'}
+];
+let currentCase=cases[0];
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2200)}
+function badge(s){let c=s.includes('結案')?'green':s.includes('回收')?'blue':s.includes('詢價')?'orange':s.includes('議價')?'':'gray';return `<span class="badge ${c}">${s}</span>`}
+function showPage(page,el){
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active')); if(el)el.classList.add('active');
+ const titles={dashboard:'儀表板',reason:'請購單合理性判斷',cases:'採購案件專區',suppliers:'供應商管理',esg:'ESG 問券管理',transfer:'案件移轉管理',params:'參數管理',notice:'公告管理',vendor:'供應商入口'};
+ document.getElementById('crumb').textContent='採購管理平台　/　'+titles[page];
+ const f={dashboard:dashboard,reason:reason,cases:caseList,suppliers:supplierPage,esg:esgPage,transfer:transferPage,params:paramsPage,notice:noticePage,vendor:vendorPage};
+ document.getElementById('content').innerHTML=f[page]();
+}
+function dashboard(){return `
+<div class="page-title"><div><h1>採購智能化 AI 平台</h1><p>採購管理總覽｜今日 2026/09/21</p></div><button class="btn primary" onclick="openNewCase()">＋ 新增採購單</button></div>
+<div class="grid stats">
+ <div class="stat"><div class="label">進行中採購案件</div><div class="num">12</div><div class="hint">較上週 +2</div></div>
+ <div class="stat"><div class="label">待回覆詢價</div><div class="num">8</div><div class="hint">3 件即將到期</div></div>
+ <div class="stat"><div class="label">待處理 ESG 問券</div><div class="num">16</div><div class="hint">本年度活動</div></div>
+ <div class="stat"><div class="label">AI 建議採用率</div><div class="num">86%</div><div class="hint">依近期案件統計</div></div>
+</div>
+<div class="grid two" style="margin-top:16px">
+ <div class="card"><h3>採購案件進度</h3><div class="stepper"><div class="step done"><i class="dot">✓</i><span>採購單成立</span></div><div class="step done"><i class="dot">✓</i><span>詢價中</span></div><div class="step current"><i class="dot">3</i><span>比價議價</span></div><div class="step"><i class="dot">4</i><span>議價結果</span></div><div class="step"><i class="dot">5</i><span>結案</span></div></div>
+ <div class="notice">目前 <b>PO-202609-0012</b> 已進入詢價階段，3 家廠商中有 2 家已回覆。</div>
+ <button class="btn" onclick="openCase()">查看案件</button></div>
+ <div class="card"><h3>AI 智能提醒</h3><div class="ai-box"><div class="ai-title">✦ 今日建議處理</div><ul><li>3 家廠商報價截止日將於 24 小時內到期</li><li>1 件請購單尚有 AI 建議項目未修正</li><li>2 家供應商 ESG 問券尚未完成</li></ul></div></div>
+</div>
+<div class="card" style="margin-top:16px"><h3>近期採購案件</h3>${caseTable(cases)}</div>`}
+function caseTable(arr){return `<div class="table-wrap"><table class="table"><thead><tr><th>採購單號</th><th>採購單位</th><th>案名</th><th>建立日期</th><th>負責人</th><th>狀態</th><th>操作</th></tr></thead><tbody>${arr.map((c,i)=>`<tr><td><b>${c.no}</b></td><td>${c.unit}</td><td>${c.name}</td><td>${c.date}</td><td>${c.owner}</td><td>${badge(c.status)}</td><td><button class="btn" onclick="openCase(${i})">檢視</button></td></tr>`).join('')}</tbody></table></div>`}
+function reason(){return `
+<div class="page-title"><div><h1>請購單合理性判斷</h1><p>獨立模組｜不直接掛勾後續採購流程</p></div><button class="btn" onclick="showHistory()">詢問記錄</button></div>
+<div class="card"><div class="grid three">
+ <div class="field"><label>請購單號</label><input id="reqNo" value="REQ-202609-0188"></div>
+ <div class="field"><label>案名</label><input value="門市網路設備升級"></div>
+ <div class="field"><label>類別</label><select><option>資訊類（非標準）</option><option>工程類（標準）</option><option>設備類</option></select></div>
+</div><div class="field" style="margin-top:12px"><label>請購原因</label><textarea rows="3">因既有設備版本老舊，需進行設備升級以維持門市網路服務。</textarea></div>
+<div class="upload" style="margin-top:14px" onclick="toast('示範版：已選擇報價單檔案')">📄　<b>拖曳或點擊上傳廠商報價單</b><br><small>支援 PDF / JPG / PNG；系統將擷取 OCR 可辨識欄位</small></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px"><label><input type="checkbox" id="fresh"> AI 重新判斷（本次視為第一次判斷，不沿用過去建議）</label><button class="btn primary" onclick="runAIReason()">✦ AI 判斷</button></div></div>
+<div id="reasonResult" style="margin-top:16px"></div>`}
+function runAIReason(){document.getElementById('reasonResult').innerHTML=`<div class="grid two"><div class="card"><h3>AI 判斷結果</h3><div class="notice">判斷完成：目前發現 <b>3</b> 項建議改善內容。</div><table class="table"><tr><th>項目</th><th>結果</th><th>建議</th></tr><tr><td>報價項目完整性</td><td>${badge('需改善')}</td><td>補充設備規格與數量</td></tr><tr><td>價格資訊</td><td>${badge('需改善')}</td><td>建議補充單價、總價及稅別</td></tr><tr><td>付款條件</td><td>${badge('符合')}</td><td>—</td></tr></table></div><div class="card"><h3>歷史改善追蹤</h3><p class="kpi">同請購單號過去建議</p><div style="margin:12px 0">設備規格補充 <span class="badge green">已改善</span></div><div style="margin:12px 0">價格拆分 <span class="badge orange">尚未改善</span></div><div style="margin:12px 0">付款條件 <span class="badge green">已改善</span></div></div></div>`;toast('AI 判斷完成')}
+
+function caseList(){return `<div class="page-title"><div><h1>採購案件專區</h1><p>採購 → 詢價 → 比價議價 → 結案</p></div><button class="btn primary" onclick="openNewCase()">＋ 新增採購單</button></div>
+<div class="card"><div class="filters"><div class="field"><label>建立日期（起）</label><input type="date" value="2026-09-01"></div><div class="field"><label>建立日期（迄）</label><input type="date" value="2026-09-21"></div><div class="field"><label>狀態</label><select><option>全部</option><option>採購單成立</option><option>詢價中</option><option>詢價單已收回完畢</option><option>比價與議價階段</option><option>已結案</option></select></div><div class="field"><label>關鍵字</label><input placeholder="採購單號／案名"></div></div><div style="margin-top:12px"><button class="btn primary" onclick="toast('已套用篩選條件')">搜尋</button> <button class="btn">清除</button></div></div>
+<div class="card" style="margin-top:16px"><h3>採購單清單</h3>${caseTable(cases)}</div>`}
+
+function openNewCase(){openModal(`<div class="modal-head"><h2>新增採購單</h2><button class="x" onclick="closeModal()">×</button></div>
+<div class="notice">請上傳最終版本遠百請購單截圖（案件基本資料＋請購項目），系統將以 OCR 協助帶入欄位。</div>
+<div class="upload" onclick="toast('示範版：OCR 已辨識 2 張圖片')">📷 <b>上傳請購單截圖</b><br><small>建議上傳 1～2 張</small></div>
+<div class="grid two" style="margin-top:16px"><div class="field"><label>案件名稱</label><input value="防火牆設備汰換專案"></div><div class="field"><label>採購單位</label><select><option>資訊處</option><option>工程部</option><option>總務部</option></select></div></div>
+<div class="card" style="margin-top:16px;padding:15px;background:#f8fafc"><b>採購子單 01</b><div class="grid two" style="margin-top:10px"><div class="field"><label>採購類別</label><select><option>資訊設備</option><option>資訊服務</option></select></div><div class="field"><label>報價項目</label><input value="防火牆設備 × 2"></div></div></div>
+<div style="margin-top:18px;text-align:right"><button class="btn" onclick="closeModal()">暫存</button><button class="btn primary" onclick="toast('採購單已建立');closeModal();showPage('cases')">送出建立</button></div>`)}
+function openCase(i=0){currentCase=cases[i]||cases[0];showCaseDetail()}
+function showCaseDetail(){document.getElementById('crumb').textContent='採購管理平台　/　採購案件　/　'+currentCase.no;document.getElementById('content').innerHTML=`
+<div class="page-title"><div><h1>${currentCase.no}</h1><p>${currentCase.name}｜負責人：${currentCase.owner}</p></div><div>${badge(currentCase.status)}</div></div>
+<div class="card"><div class="tabs"><button class="active" onclick="caseTab('data',this)">採購單資料</button><button onclick="caseTab('quote',this)">詢價階段</button><button onclick="caseTab('compare',this)">比價與議價建議</button><button onclick="caseTab('result',this)">議價結果填寫</button></div><div id="caseTabBody">${caseData()}</div></div>`}
+function caseTab(tab,el){document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));el.classList.add('active');const body=document.getElementById('caseTabBody');body.innerHTML=tab==='data'?caseData():tab==='quote'?quoteTab():tab==='compare'?compareTab():resultTab()}
+function caseData(){return `<div class="grid two"><div><div class="grid two"><div class="field"><label>採購單號</label><input value="${currentCase.no}" disabled></div><div class="field"><label>採購單位</label><input value="${currentCase.unit}"></div><div class="field"><label>案名</label><input value="${currentCase.name}"></div><div class="field"><label>案件負責人</label><input value="${currentCase.owner}"></div></div><div class="field" style="margin-top:12px"><label>案件說明</label><textarea rows="5">依請購單內容建立採購案件，以下為 OCR 帶入資料。</textarea></div></div><div><h3>原始請購單附件</h3><div class="upload">🖼️ 案件基本資料.png<br><br>🖼️ 請購項目.png</div></div></div><div style="margin-top:18px;text-align:right"><button class="btn primary" onclick="toast('案件資料已儲存')">儲存</button></div>`}
+function quoteTab(){return `<div class="notice">詢價需求可在廠商全部回覆後進入「比價與議價建議」階段。</div><div style="display:flex;justify-content:space-between;margin-bottom:15px"><h3>詢價廠商清單</h3><div><button class="btn" onclick="supplierPicker()">＋ 增加詢價廠商</button><button class="btn primary" onclick="aiQuote()">✦ AI 詢價建議</button></div></div><div class="table-wrap"><table class="table"><thead><tr><th>廠商</th><th>服務類別</th><th>評鑑</th><th>報價截止日</th><th>詢價狀態</th><th>操作</th></tr></thead><tbody>
+${suppliers.slice(0,3).map((s,i)=>`<tr><td><b>${s.name}</b></td><td>${s.cat}</td><td>${s.rating}</td><td>${i===0?'2026/09/22':'2026/09/24'}</td><td>${badge(i===2?'未詢價':i===1?'已詢價':'已回覆')}</td><td><button class="btn" onclick="toast('${i===2?'已發送詢價':'已取消詢價'}')">${i===2?'詢價':'取消詢價'}</button></td></tr>`).join('')}</tbody></table></div><div style="margin-top:18px;text-align:right"><button class="btn" onclick="toast('詢價廠商清單已儲存')">儲存</button><button class="btn primary" onclick="toast('已透過 EMAIL 發送詢價邀請')">發送詢價需求</button></div>`}
+function aiQuote(){openModal(`<div class="modal-head"><h2>✦ AI 詢價建議</h2><button class="x" onclick="closeModal()">×</button></div><div class="ai-box"><div class="ai-title">推薦詢價廠商</div><p>依據案件類別、報價項目性質與供應商歷史評鑑資料，產生本次建議。</p><ol><li><b>台灣資訊科技股份有限公司</b> — 同類型案件經驗較多，ESG 評鑑 92。</li><li><b>新世代系統整合有限公司</b> — 服務類別吻合，歷史合作資料可供比對。</li><li><b>華信工程有限公司</b> — 具相關工程服務能力，可作為詢價對象。</li></ol></div><div style="margin-top:18px;text-align:right"><button class="btn" onclick="closeModal()">取消</button><button class="btn primary" onclick="toast('已加入推薦廠商');closeModal()">加入清單</button></div>`)}
+function supplierPicker(){openModal(`<div class="modal-head"><h2>增加詢價廠商</h2><button class="x" onclick="closeModal()">×</button></div><div class="filters"><div class="field"><label>服務類別</label><select><option>全部</option><option>資訊服務</option><option>工程服務</option></select></div><div class="field"><label>資本額</label><select><option>全部</option><option>1 億以上</option></select></div><div class="field"><label>評鑑等級</label><select><option>全部</option><option>A</option><option>B</option></select></div><div class="field"><label>關鍵字</label><input placeholder="供應商名稱"></div></div><div class="table-wrap" style="margin-top:15px"><table class="table"><tr><th></th><th>供應商</th><th>類別</th><th>評鑑</th></tr>${suppliers.map(s=>`<tr><td><input type="checkbox"></td><td>${s.name}</td><td>${s.cat}</td><td>${s.rating}</td></tr>`).join('')}</table></div><div style="margin-top:18px;text-align:right"><button class="btn primary" onclick="toast('已加入選取廠商');closeModal()">加入</button></div>`)}
+function compareTab(){return `<div class="ai-box"><div class="ai-title">✦ AI 比價與議價建議</div><p>當詢價需求全部轉換為「已回覆」後，AI 可依歷史報價單、廠商評分與遠百選商評估標準提供建議。</p><button class="btn primary" onclick="runCompare()">產生 AI 比價與議價建議</button></div><div id="compareResult" style="margin-top:16px"></div>`}
+function runCompare(){document.getElementById('compareResult').innerHTML=`<div class="grid two"><div class="card"><h3>報價比較</h3><table class="table"><tr><th>廠商</th><th>報價</th><th>ESG</th><th>歷史評鑑</th></tr><tr><td>台灣資訊科技</td><td>1,280,000</td><td>92</td><td>A</td></tr><tr><td>新世代系統整合</td><td>1,220,000</td><td>84</td><td>B</td></tr><tr><td>華信工程</td><td>1,350,000</td><td>88</td><td>A</td></tr></table></div><div class="card"><h3>AI 建議</h3><ul><li>可針對報價差異要求廠商說明成本結構。</li><li>議價時可優先確認維護、保固與服務條件。</li><li>合作對象判斷需依遠百正式選商標準確認。</li></ul></div></div>`;toast('AI 分析完成')}
+
+function resultTab(){return `<div class="notice">可選擇最終議價廠商，回填議價結果並指定得標廠商。</div><div style="margin-bottom:15px"><button class="btn primary" onclick="addResult()">＋ 新增議價結果</button></div><div class="grid three"><div class="field"><label>議價廠商</label><select><option>台灣資訊科技股份有限公司</option><option>新世代系統整合有限公司</option></select></div><div class="field"><label>最終議價金額</label><input value="1,200,000"></div><div class="field"><label>得標廠商</label><select><option>台灣資訊科技股份有限公司</option></select></div></div><div class="grid two" style="margin-top:14px"><div class="field"><label>議價結果說明</label><textarea rows="5">經議價後調整報價，確認保固及維護條件。</textarea></div><div class="field"><label>備註</label><textarea rows="5"></textarea></div></div><div style="text-align:right;margin-top:18px"><button class="btn" onclick="toast('議價結果已儲存')">儲存</button><button class="btn success" onclick="confirmClose()">結案</button></div>`}
+function addResult(){toast('已新增議價結果填寫區')}; function confirmClose(){if(confirm('確定要結案嗎？結案後採購單狀態將變更為「已結案」。')){toast('案件已結案')}} 
+
+function supplierPage(){return `<div class="page-title"><div><h1>供應商管理</h1><p>供應商基本資料、聯絡窗口與歷史評鑑</p></div><button class="btn primary" onclick="toast('開啟新增供應商')">＋ 新增供應商</button></div><div class="card">${caseTable([])}<div class="table-wrap"><table class="table"><thead><tr><th>統一編號</th><th>供應商名稱</th><th>服務類別</th><th>資本額</th><th>評鑑</th><th>ESG</th><th>操作</th></tr></thead><tbody>${suppliers.map(s=>`<tr><td>${s.id}</td><td><b>${s.name}</b></td><td>${s.cat}</td><td>${s.capital}</td><td>${badge(s.rating)}</td><td>${s.esg}</td><td><button class="btn" onclick="toast('開啟 ${s.name} 資料')">檢視</button></td></tr>`).join('')}</tbody></table></div></div>`}
+function esgPage(){return `<div class="page-title"><div><h1>ESG 問券管理</h1><p>建立活動、維護題目、發送與追蹤回填進度</p></div><button class="btn primary" onclick="toast('建立新的 ESG 問券活動')">＋ 建立問券活動</button></div><div class="grid stats"><div class="stat"><div class="label">進行中活動</div><div class="num">1</div></div><div class="stat"><div class="label">待填寫供應商</div><div class="num">16</div></div><div class="stat"><div class="label">已完成</div><div class="num">42</div></div><div class="stat"><div class="label">完成率</div><div class="num">72%</div></div></div><div class="card" style="margin-top:16px"><h3>問券活動清單</h3><table class="table"><tr><th>活動名稱</th><th>填寫期間</th><th>供應商數</th><th>完成</th><th>狀態</th><th>操作</th></tr><tr><td><b>2026 年度 ESG 供應商評鑑</b></td><td>2026/09/01 ～ 2026/12/31</td><td>58</td><td>42 / 58</td><td>${badge('進行中')}</td><td><button class="btn" onclick="toast('查看回填進度')">回填進度</button></td></tr><tr><td>2025 年度 ESG 供應商評鑑</td><td>2025/09/01 ～ 2025/12/31</td><td>55</td><td>55 / 55</td><td>${badge('已完成')}</td><td><button class="btn">歷史資料</button></td></tr></table></div>`}
+function transferPage(){return `<div class="page-title"><div><h1>案件移轉管理</h1><p>單位主管可將未結案案件批次移轉給指定經辦</p></div></div><div class="card"><div class="filters"><div class="field"><label>負責經辦</label><select><option>全部</option><option>王小明</option><option>陳怡君</option></select></div><div class="field"><label>狀態</label><select><option>未結案</option><option>詢價中</option><option>比價與議價階段</option></select></div><div class="field"><label>移轉對象</label><select><option>請選擇</option><option>王小明</option><option>陳怡君</option><option>林志豪</option></select></div></div><div style="margin-top:15px">${caseTable(cases.filter(x=>x.status!=='已結案'))}</div><div style="text-align:right;margin-top:15px"><button class="btn primary" onclick="toast('已批次移轉選取案件')">批次移轉</button></div></div>`}
+function paramsPage(){return `<div class="page-title"><div><h1>參數管理</h1><p>維護詢價廠商回覆與系統選項</p></div><button class="btn primary" onclick="toast('已新增參數')">＋ 新增參數</button></div><div class="card"><table class="table"><tr><th>參數類別</th><th>代碼</th><th>顯示名稱</th><th>狀態</th><th>操作</th></tr><tr><td>詢價回覆</td><td>REPLY_Y</td><td>願意報價</td><td>${badge('啟用')}</td><td><button class="btn">編輯</button></td></tr><tr><td>詢價回覆</td><td>REPLY_N</td><td>無法報價</td><td>${badge('啟用')}</td><td><button class="btn">編輯</button></td></tr><tr><td>詢價回覆</td><td>REPLY_O</td><td>其他</td><td>${badge('啟用')}</td><td><button class="btn">編輯</button></td></tr></table></div>`}
+function noticePage(){return `<div class="page-title"><div><h1>公告管理</h1><p>推播通知與附件清單管理</p></div><button class="btn primary" onclick="openModal('<div class=modal-head><h2>新增公告</h2><button class=x onclick=closeModal()>×</button></div><div class=field><label>公告標題</label><input></div><div class=field style=margin-top:12px><label>公告內容</label><textarea rows=6></textarea></div><div style=margin-top:18px;text-align:right><button class=btn primary onclick=toast(\\'公告已發布\\');closeModal()>發布</button></div>')">＋ 新增公告</button></div><div class="card"><table class="table"><tr><th>公告日期</th><th>標題</th><th>對象</th><th>附件</th><th>狀態</th></tr><tr><td>2026/09/20</td><td>詢價平台維護通知</td><td>全部供應商</td><td>1</td><td>${badge('已發布')}</td></tr><tr><td>2026/09/18</td><td>2026 ESG 問券填寫提醒</td><td>指定供應商</td><td>0</td><td>${badge('已發布')}</td></tr></table></div>`}
+function vendorPage(){return `<div class="page-title"><div><h1>供應商平台 Demo</h1><p>以供應商登入視角呈現流程</p></div><div>${badge('供應商：台灣資訊科技股份有限公司')}</div></div><div class="grid stats"><div class="stat"><div class="label">待處理詢價</div><div class="num">2</div></div><div class="stat"><div class="label">待填 ESG 問券</div><div class="num">1</div></div><div class="stat"><div class="label">近期公告</div><div class="num">3</div></div><div class="stat"><div class="label">ESG 歷史評分</div><div class="num">92</div></div></div><div class="grid two" style="margin-top:16px"><div class="card"><h3>進行中的詢價需求</h3><table class="table"><tr><th>詢價單</th><th>案名</th><th>截止日</th><th>狀態</th></tr><tr><td>RFQ-0012</td><td>防火牆設備汰換</td><td>2026/09/22</td><td>${badge('進行中')}</td></tr><tr><td>RFQ-0015</td><td>門市網路設備</td><td>2026/09/24</td><td>${badge('進行中')}</td></tr></table><button class="btn primary" style="margin-top:15px" onclick="vendorQuote()">進入詢價管理</button></div><div class="card"><h3>ESG 評鑑</h3><div class="notice">2026 年度 ESG 問券尚未完成，截止日 2026/12/31。</div><button class="btn primary" onclick="vendorESG()">填寫 ESG 問券</button></div></div>`}
+function vendorQuote(){openModal(`<div class="modal-head"><h2>詢價需求｜RFQ-0012</h2><button class="x" onclick="closeModal()">×</button></div><div class="notice">請於 2026/09/22 前回覆。可暫存，送出後將無法編輯。</div><div class="field"><label>是否回覆詢價</label><select><option>願意報價</option><option>無法報價</option><option>其他</option></select></div><div class="card" style="margin-top:14px"><h3>報價項目</h3><table class="table"><tr><th>項目</th><th>數量</th><th>單價</th><th>備註</th></tr><tr><td>防火牆設備</td><td>2</td><td><input value="640000" style="width:110px"></td><td><input placeholder="項目備註"></td></tr></table></div><div class="grid two" style="margin-top:14px"><div class="field"><label>交貨／服務時間</label><input></div><div class="field"><label>付款條件</label><input></div><div class="field"><label>保固條件</label><input></div><div class="field"><label>其他備註</label><input></div></div><div class="upload" style="margin-top:14px">📎 上傳報價單附件</div><div style="margin-top:18px;text-align:right"><button class="btn" onclick="toast('詢價單已暫存')">暫存</button><button class="btn primary" onclick="toast('詢價單已送出');closeModal()">送出</button></div>`)}
+function vendorESG(){openModal(`<div class="modal-head"><h2>2026 年度 ESG 供應商評鑑</h2><button class="x" onclick="closeModal()">×</button></div><div class="notice">送出後無法自行修改，若需修改須由採購後台退回。</div><div class="field"><label>1. 是否具備環境管理政策？（10 分）</label><select><option>是</option><option>否</option></select></div><div class="field" style="margin-top:14px"><label>2. 是否定期進行 ESG 相關揭露？（10 分）</label><select><option>是</option><option>否</option></select></div><div class="field" style="margin-top:14px"><label>附件（依題目需求）</label><input type="file"></div><div style="margin-top:18px;text-align:right"><button class="btn" onclick="toast('ESG 問券已暫存')">暫存</button><button class="btn primary" onclick="toast('ESG 問券已送出');closeModal()">送出</button></div>`)}
+function showHistory(){toast('示範版：可依日期起訖篩選並批次刪除詢問記錄')}
+function openModal(html){document.getElementById('modalBody').innerHTML=html;document.getElementById('modal').style.display='flex'}
+function closeModal(){document.getElementById('modal').style.display='none'}
+showPage('dashboard',document.querySelector('.nav button'));
+</script>
+</body>
+</html>
